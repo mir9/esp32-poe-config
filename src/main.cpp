@@ -1,6 +1,7 @@
 #include <WiFi.h>
 #include <WebServer.h>
-#include <ETH.h>
+#include <SPI.h>
+#include <Ethernet.h>
 #include <Preferences.h>
 #include <PubSubClient.h>
 #include <Adafruit_BME280.h>
@@ -17,7 +18,7 @@
 
 
 Adafruit_BME280 bme;
-WiFiClient ethClient;
+EthernetClient ethClient;
 PubSubClient mqttClient(ethClient);
 WebServer server(80);
 Preferences prefs;
@@ -141,13 +142,19 @@ void setup() {
     Wire.begin(I2C_SDA, I2C_SCL);
     bme.begin(0x76);
 
-    // Start Ethernet
-    ETH.begin(ETH_CS, ETH_RST, SPI_MOSI, SPI_SCK, SPI_MISO);
+    // Start Ethernet (W5500)
+    pinMode(ETH_RST, OUTPUT);
+    digitalWrite(ETH_RST, LOW);
+    delay(100);
+    digitalWrite(ETH_RST, HIGH);
+    SPI.begin(SPI_SCK, SPI_MISO, SPI_MOSI, ETH_CS);
+    Ethernet.init(ETH_CS);
+    byte mac[6] = {0x02, 0x00, 0x00, 0x00, 0x00, 0x01};
     IPAddress ip, gw, sn;
     ip.fromString(config.eth_ip);
     gw.fromString(config.eth_gateway);
     sn.fromString(config.eth_subnet);
-    ETH.config(ip, gw, gw, sn);
+    Ethernet.begin(mac, ip, gw, gw, sn);
 
     // Start WiFi AP for config
     WiFi.mode(WIFI_AP);
