@@ -4,6 +4,7 @@ This sketch configures an ESP32-S3-ETH PoE board as a WiFi access point to updat
 
 ## Wiring
 
+
 | ESP32-S3-ETH Pin | BME280 Pin |
 |------------------|------------|
 | 3V3 (Pin 36)     | VIN        |
@@ -21,6 +22,7 @@ SPI_MISO -> GPIO12
 SPI_SCK  -> GPIO13
 ```
 
+
 ## Configuration Website
 
 1. After flashing, the device starts an access point named **ESP32_CONFIG** with password **password**.
@@ -30,6 +32,7 @@ SPI_SCK  -> GPIO13
 Configuration can also be updated by publishing a JSON document to the MQTT topic `esp32/config` while MQTT is enabled.
 
 ## Building
+
 
 This repository includes a `platformio.ini` configuration. Build and upload with PlatformIO:
 

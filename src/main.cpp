@@ -15,6 +15,7 @@
 #define SPI_MISO 12
 #define SPI_SCK  13
 
+
 Adafruit_BME280 bme;
 WiFiClient ethClient;
 PubSubClient mqttClient(ethClient);
