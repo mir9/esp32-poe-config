@@ -6,8 +6,15 @@
 #include <Adafruit_BME280.h>
 #include <ArduinoJson.h>
 
-#define I2C_SDA 10
-#define I2C_SCL 11
+#define I2C_SDA 18
+#define I2C_SCL 17
+
+#define ETH_CS   14
+#define ETH_RST  9
+#define SPI_MOSI 11
+#define SPI_MISO 12
+#define SPI_SCK  13
+
 
 Adafruit_BME280 bme;
 WiFiClient ethClient;
@@ -135,7 +142,7 @@ void setup() {
     bme.begin(0x76);
 
     // Start Ethernet
-    ETH.begin();
+    ETH.begin(ETH_CS, ETH_RST, SPI_MOSI, SPI_SCK, SPI_MISO);
     IPAddress ip, gw, sn;
     ip.fromString(config.eth_ip);
     gw.fromString(config.eth_gateway);

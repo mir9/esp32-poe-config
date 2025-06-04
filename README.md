@@ -4,16 +4,24 @@ This sketch configures an ESP32-S3-ETH PoE board as a WiFi access point to updat
 
 ## Wiring
 
+
+| ESP32-S3-ETH Pin | BME280 Pin |
+|------------------|------------|
+| 3V3 (Pin 36)     | VIN        |
+| GND (Pin 38)     | GND        |
+| GPIO17 (Pin 34)  | SCL        |
+| GPIO18 (Pin 31)  | SDA        |
+
+Ethernet uses a W5500 module on SPI:
+
 ```
-ESP32-S3-ETH PoE        BME280
---------------------    ------
-3V3 (3.3V)  ----------> VIN
-GND          ----------> GND
-GPIO10 (SDA) ----------> SDA
-GPIO11 (SCL) ----------> SCL
+ETH_CS   -> GPIO14
+ETH_RST  -> GPIO9
+SPI_MOSI -> GPIO11
+SPI_MISO -> GPIO12
+SPI_SCK  -> GPIO13
 ```
 
-Ethernet is built into the PoE board using the RJ45 connector.
 
 ## Configuration Website
 
@@ -25,4 +33,11 @@ Configuration can also be updated by publishing a JSON document to the MQTT topi
 
 ## Building
 
-Use the Arduino IDE or PlatformIO with the ESP32 board package. The entry point is `src/main.cpp`.
+
+This repository includes a `platformio.ini` configuration. Build and upload with PlatformIO:
+
+```bash
+pio run -t upload
+```
+
+The entry point is `src/main.cpp`.
